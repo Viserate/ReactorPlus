@@ -10,7 +10,7 @@ local files = {
     "state.lua"
 }
 
-local baseUrl = "https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/ReactorPlus/main/"
+local baseUrl = "https://raw.githubusercontent.com/Viserate/ReactorPlus/main/"
 
 fs.makeDir("ReactorPlus")
 
