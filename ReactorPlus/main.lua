@@ -1,10 +1,10 @@
-local config = require("ReactorPlus.config")
-local state = require("ReactorPlus.state")
-local ui = require("ReactorPlus.ui")
-local input = require("ReactorPlus.input")
-local pid = require("ReactorPlus.pid")
-local scan = require("ReactorPlus.peripheral_scan")
-local helpers = require("ReactorPlus.helpers")
+local config = require("config")
+local state = require("state")
+local ui = require("ui")
+local input = require("input")
+local pid = require("pid")
+local scan = require("peripheral_scan")
+local helpers = require("helpers")
 
 -- Initial setup
 scan.detect()
