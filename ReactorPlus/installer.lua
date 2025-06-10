@@ -1,8 +1,18 @@
 -- Safe installer for low-space CC systems
 local files = {
-  "config.lua", "main.lua", "pid.lua",
-  "input.lua", "ui.lua", "helpers.lua",
-  "peripheral_scan.lua", "state.lua"
+  "config.lua", "main.lua", "pid.lua", "input.lua", "ui.lua",
+  "helpers.lua", "peripheral_scan.lua", "state.lua",
+  -- Basalt core
+  "basalt.lua",
+  -- Basalt subfiles
+  "basalt/main.lua",
+  "basalt/theme.lua",
+  "basalt/events/event.lua",
+  "basalt/objects/button.lua",
+  "basalt/objects/label.lua",
+  "basalt/objects/frame.lua",
+  "basalt/objects/progressbar.lua"
+  -- (Add more as needed)
 }
 
 local base = "https://raw.githubusercontent.com/Viserate/ReactorPlus/main/ReactorPlus/"
