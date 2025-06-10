@@ -1,6 +1,6 @@
-local basalt = require("basalt")
-local config = require("ReactorPlus.config")
-local state = require("ReactorPlus.state")
+local basalt = require("ReactorPlus.basalt")
+local config = require("config")
+local state = require("state")
 
 local main
 local bar
