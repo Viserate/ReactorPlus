@@ -1,4 +1,4 @@
-local state = require("ReactorPlus.state")
+local state = require("state")
 
 local function detect()
     for _, name in ipairs(peripheral.getNames()) do
