@@ -1,5 +1,5 @@
-local config = require("ReactorPlus.config")
-local state = require("ReactorPlus.state")
+local config = require("config")
+local state = require("state")
 
 local integral = 0
 local previous_error = 0
