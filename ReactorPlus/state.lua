@@ -1,19 +1,10 @@
-local state = {
-    externalBatteries = {},
-    reactor = nil,
-    manualRodLevel = 0,
-    lastRodLevel = 0
-}
-
-function state.getEnergyPercent()
-    if #state.externalBatteries == 0 then return 0 end
-    local total = 0
-    local max = 0
-    for _, bat in ipairs(state.externalBatteries) do
-        total = total + bat.getEnergy()
-        max = max + bat.getMaxEnergy()
+local t = 0
+return {
+    getEnergyPercent = function()
+        t = (t + 0.01) % 1
+        return t
+    end,
+    getTemperature = function()
+        return math.floor(300 + math.sin(t * math.pi * 2) * 100)
     end
-    return total / max
-end
-
-return state
+}
