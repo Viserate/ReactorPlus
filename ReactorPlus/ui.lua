@@ -1,53 +1,90 @@
+-- /ReactorPlus/ui.lua
 local device = peripheral.find("monitor") or term
 local usingMonitor = device ~= term
+local state = require("state")
 
--- Helper to write centered text
-local function centerText(y, text)
+if usingMonitor then
+    device.setTextScale(0.5)
+end
+
+local function clear()
+    device.setBackgroundColor(colors.black)
+    device.clear()
+    device.setCursorPos(1, 1)
+end
+
+local function centerText(y, text, color)
     local w, _ = device.getSize()
     local x = math.floor((w - #text) / 2) + 1
     device.setCursorPos(x, y)
+    if color then
+        device.setTextColor(color)
+    end
     device.write(text)
+    device.setTextColor(colors.white)
 end
 
--- Draws a horizontal progress bar
-local function drawBar(x, y, w, percent, label)
+local function drawBar(x, y, width, percent, label, barColor, bgColor)
     percent = math.max(0, math.min(1, percent))
-    local fill = math.floor(w * percent)
+    local fill = math.floor(width * percent)
+
     device.setCursorPos(x, y)
+    device.setTextColor(colors.white)
     device.write(label .. ": [")
-    for i = 1, w do
+
+    for i = 1, width do
         if i <= fill then
-            device.write("=")
+            device.setBackgroundColor(barColor)
         else
-            device.write(" ")
+            device.setBackgroundColor(bgColor)
         end
+        device.write(" ")
     end
+
+    device.setBackgroundColor(colors.black)
     device.write("]")
 end
 
 local function init()
-    if usingMonitor then
-        device.setTextScale(0.5)
-    end
-    device.clear()
-    device.setCursorPos(1, 1)
-    centerText(1, "ReactorPlus")
+    clear()
+    centerText(1, "ReactorPlus Monitor", colors.cyan)
 end
 
 local function update()
-    device.clear()
-    local width, height = device.getSize()
-    local energy = require("state").getEnergyPercent() -- must return 0–1
-    local temp = require("state").getTemperature() or 0 -- optional
+    local width, _ = device.getSize()
 
-    centerText(1, "ReactorPlus")
-    drawBar(2, 3, width - 4, energy, "Energy")
+    local energy = state.getEnergyPercent() or 0
+    local temp = state.getTemperature() or 0
+    local status = state.getReactorStatus() or "UNKNOWN"
+
+    clear()
+    centerText(1, "ReactorPlus Monitor", colors.cyan)
+    drawBar(2, 3, width - 4, energy, "Energy", colors.green, colors.gray)
 
     device.setCursorPos(2, 5)
-    device.write("Temp: " .. tostring(temp) .. " C")
+    device.setTextColor(colors.orange)
+    device.write("Temperature: ")
+    device.setTextColor(colors.white)
+    device.write(temp .. " C")
+
+    device.setCursorPos(2, 6)
+    device.setTextColor(colors.orange)
+    device.write("Reactor Status: ")
+    device.setTextColor(status == "ONLINE" and colors.lime or colors.red)
+    device.write(status)
+end
+
+local function checkInput()
+    if usingMonitor then
+        local event, side, x, y = os.pullEvent("monitor_touch")
+        if y == 6 then
+            state.toggleStatus()
+        end
+    end
 end
 
 return {
     init = init,
-    update = update
+    update = update,
+    checkInput = checkInput
 }
